@@ -9,7 +9,7 @@ export class SpinController {
     private readonly spinService: SpinService,
   ) {}
   
-  @OnTelegramCommand('spin', 'Spinning')
+  @OnTelegramCommand('spin', 'Slot machine (cost 5 coins)')
   async spin(context: any) {
     const { update } = context;
     const { message } = update;
