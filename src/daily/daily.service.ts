@@ -20,7 +20,7 @@ export class DailyService {
       throw new AlreadyRedeemedException();
     }
     await this.dailyRepository.saveLastRewardForUser(userId);
-    const value = 100;
+    const value = 25;
     await this.walletService.add(userId, WalletType.Default, value, WalletTransactionLocation.DailyReward);
     return value;
   }
