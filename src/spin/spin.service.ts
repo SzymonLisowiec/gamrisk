@@ -24,17 +24,17 @@ export class SpinService {
     switch (result.dice.value) {
       case 1:
         // 3 x bar
-        wonValue = 10;
+        wonValue = 25;
         break;
         
       case 22:
         // 3 x grape
-        wonValue = 25;
+        wonValue = 50;
         break;
         
       case 43:
         // 3 x lemon
-        wonValue = 50;
+        wonValue = 75;
         break;
         
       case 64:
