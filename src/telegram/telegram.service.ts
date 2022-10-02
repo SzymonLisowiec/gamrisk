@@ -6,6 +6,7 @@ import { UserNotFoundException } from 'src/user/exceptions/user-not-found.except
 import { UserService } from 'src/user/user.service';
 import { Context, Telegraf } from 'telegraf';
 import { Message, Update } from 'telegraf/typings/core/types/typegram';
+import Config from './config';
 import { TELEGRAM_COMMANDS_METADATA, TELEGRAM_UPDATE_LISTENERS_METADATA } from './telegram.constants';
 
 @Injectable()
@@ -19,7 +20,7 @@ export class TelegramService {
     private readonly metadataScanner: MetadataScanner,
     private readonly userService: UserService,
   ) {
-    this.bot = new Telegraf(process.env.BOT_TOKEN);
+    this.bot = new Telegraf(Config.botToken);
     
     this.bot.use(async (context: Context<any>, next: any) => {
       try {
