@@ -8,6 +8,7 @@ import KnexConfig from './knex/config';
 import { WalletModule } from './wallet/wallet.module';
 import { SpinModule } from './spin/spin.module';
 import { DailyModule } from './daily/daily.module';
+import { JackpotModule } from './jackpot/jackpot.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { DailyModule } from './daily/daily.module';
     SpinModule,
     TelegramModule,
     DailyModule,
+    JackpotModule,
   ],
   controllers: [AppController],
   providers: [AppService],
