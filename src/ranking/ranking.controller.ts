@@ -15,7 +15,7 @@ export class RankingController {
     const { update } = context;
     const { message } = update;
     const page = +message.text.split(/\s/)[1] || 1;
-    await this.sendRanking(context, message.chat.id, page);
+    await this.sendRanking(context, message.chat.id, message.from, page);
   }
   
   @OnTelegramEvent({
@@ -26,13 +26,14 @@ export class RankingController {
     const { update } = context;
     const { callback_query: query } = update;
     const page = +query.data.split(':')[1] || 1;
-    await this.sendRanking(context, query.message.chat.id, page);
+    await this.sendRanking(context, query.message.chat.id, query.from, page);
     await context.answerCbQuery();
   }
   
   async sendRanking(
     context: any,
     chatId: string,
+    from: any,
     page = 1,
   ) {
     const perPage = 10;
@@ -55,10 +56,10 @@ export class RankingController {
       });
     
     let number = offset;
-    let text = 'Ranking:\n';
+    let text = `<a href="tg://user?id=${from.id}">${from.username || 'User'}</a> here is ranking:\n`;
     rows.forEach((row) => {
       number += 1;
-      text += `\n${number}. ${row['user->username'] || 'Private username'} (${row['wallet->balance']} coins)`;
+      text += `\n${number}. <a href="tg://user?id=${from.id}">${row['user->username'] || 'Private username'}</a> (${row['wallet->balance']} coins)`;
     });
     text += `\n\nPage ${page} / ${maxPages}`;
 
@@ -81,6 +82,7 @@ export class RankingController {
       chatId,
       text,
       {
+        parse_mode: 'html',
         reply_markup: {
           inline_keyboard: [
             inlineKeyboard,
