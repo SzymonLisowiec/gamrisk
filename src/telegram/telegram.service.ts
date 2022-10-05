@@ -23,17 +23,18 @@ export class TelegramService {
     this.bot = new Telegraf(Config.botToken);
     
     this.bot.use(async (context: Context<any>, next: any) => {
+      const from = (context.update.message || context.update.callback_query).from;
       try {
-        const user = await this.userService.getUserByTelegramId(context.update.message.from.id.toString());
+        const user = await this.userService.getUserByTelegramId(from.id.toString());
         context.state.userId = user.id;
         next();
       } catch (error) {
         switch (error.constructor) {
           case UserNotFoundException:
             const user = await this.userService.createUserByTelegram(
-              context.update.message.from.id.toString(),
-              context.update.message.from.username,
-              context.update.message.from.language_code,
+              from.id.toString(),
+              from.username,
+              from.language_code,
             );
             context.state.userId = user.id;
             next();
@@ -57,6 +58,10 @@ export class TelegramService {
       }
     });
     this.bot.on('inline_query', (...args: unknown[]) => { this.events.emit('inline_query', ...args) });
+    this.bot.on('callback_query', (context: any, ...args: unknown[]) => {
+      const name = context.update.callback_query.data.split(':')[0];
+      this.events.emit(`callback_query#${name}`, context, ...args);
+    });
     // this.bot.catch((error) => {
     //   console.dir(error);
     // });
