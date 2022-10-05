@@ -58,7 +58,7 @@ export class RankingController {
     let text = 'Ranking:\n';
     rows.forEach((row) => {
       number += 1;
-      text += `\n${number}. ${row['user->username'] ? `@${row['user->username']}` : 'Private username'} (${row['wallet->balance']} coins)`;
+      text += `\n${number}. ${row['user->username'] || 'Private username'} (${row['wallet->balance']} coins)`;
     });
     text += `\n\nPage ${page} / ${maxPages}`;
 
