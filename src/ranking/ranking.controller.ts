@@ -59,7 +59,7 @@ export class RankingController {
     let text = `<a href="tg://user?id=${from.id}">${from.username || 'User'}</a> here is ranking:\n`;
     rows.forEach((row) => {
       number += 1;
-      text += `\n${number}. <a href="tg://user?id=${row['user->telegramId']}">${row['user->username'] || 'Private username'}</a> (${row['wallet->balance']} coins)`;
+      text += `\n${number}. ${row['user->username'] || 'Private username'} (${row['wallet->balance']} coins)`;
     });
     text += `\n\nPage ${page} / ${maxPages}`;
 
