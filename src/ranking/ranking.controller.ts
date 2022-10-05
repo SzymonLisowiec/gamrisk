@@ -14,7 +14,8 @@ export class RankingController {
   async daily(context: any) {
     const { update } = context;
     const { message } = update;
-    await this.sendRanking(context, message.from.id, 1);
+    const page = +message.text.split(/\s/)[1] || 1;
+    await this.sendRanking(context, message.chat.id, page);
   }
   
   @OnTelegramEvent({
@@ -25,7 +26,7 @@ export class RankingController {
     const { update } = context;
     const { callback_query: query } = update;
     const page = +query.data.split(':')[1] || 1;
-    await this.sendRanking(context, query.from.id, page);
+    await this.sendRanking(context, query.message.chat.id, page);
     await context.answerCbQuery();
   }
   
@@ -34,7 +35,7 @@ export class RankingController {
     chatId: string,
     page = 1,
   ) {
-    const perPage = 10;
+    const perPage = 1;
     const offset = (page - 1) * perPage;
     const query = this.db('wallet')
       .where({
