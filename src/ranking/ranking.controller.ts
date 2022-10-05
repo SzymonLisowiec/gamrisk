@@ -35,7 +35,7 @@ export class RankingController {
     chatId: string,
     page = 1,
   ) {
-    const perPage = 1;
+    const perPage = 10;
     const offset = (page - 1) * perPage;
     const query = this.db('wallet')
       .where({
